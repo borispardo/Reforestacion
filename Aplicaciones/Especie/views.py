@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Especie
 
+def home(request):
+    return render(request, 'home.html') 
+    
 #Mostrar lista de especies
 def listaEspecie(request):
     especies = Especie.objects.all()

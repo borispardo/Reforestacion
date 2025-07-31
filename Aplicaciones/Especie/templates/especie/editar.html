@@ -39,5 +39,20 @@
     </div>
     <div class="col-md-3"></div>
 </div>
+<!-- Inicializar FileInput con vista previa -->
+<script>
+  const input = document.querySelector('input[name="imagen"]');
+  const preview = document.getElementById('preview');
+
+  input.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.classList.remove("d-none");
+    } else {
+      preview.classList.add("d-none");
+    }
+  });
+</script>
 
 {% endblock %}

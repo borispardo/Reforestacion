@@ -7,7 +7,9 @@
         <h1 class="mb-4 text-center">Nueva Especie Forestal</h1>
 
         <form action="{% url 'guardar_especie' %}" method="post" enctype="multipart/form-data">
+
             {% csrf_token %}
+
             <div class="mb-3">
                 <label for="nombre_comun" class="form-label">Nombre Común</label>
                 <input type="text" name="nombre_comun" id="nombre_comun" class="form-control" required>
@@ -32,9 +34,19 @@
     <div class="col-md-3"></div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $("#imagen").fileinput({
+            theme: "fa",
+            language: "es",
+            allowedFileExtensions: ["jpg", "jpeg", "png"],
+            maxFileSize: 2048,
+            showUpload: false,
+            dropZoneEnabled: true,
+            browseLabel: "Seleccionar imagen",
+            removeLabel: "Eliminar",
+        });
+    });
+</script>
+
 {% endblock %}
-
-
-
-
-

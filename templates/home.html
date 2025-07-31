@@ -1,0 +1,107 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block contenido %}
+<!-- Carousel de bienvenida -->
+<div class="container-fluid carousel-header px-0">
+    <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-bs-target="#carouselId" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
+            <li data-bs-target="#carouselId" data-bs-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <img src="{% static 'environs/img/imagen2.jpg' %}" class="img-fluid" alt="Imagen 1">
+                <div class="carousel-caption">
+                    <div class="p-3 bg-dark bg-opacity-50 rounded">
+                        <h4 class="text-white text-uppercase fw-bold mb-3">Proyectos Comunitarios</h4>
+                        <h1 class="display-4 text-capitalize text-white mb-3">Reforestando el Futuro</h1>
+                        <p class="mb-4 fs-5 text-white">Consulta y registra acciones de reforestación en distintas regiones.</p>
+                        <a class="btn btn-primary py-2 px-4" href="{% url 'lista_proyecto' %}">Ver Proyectos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'environs/img/especies.jpg' %}" class="img-fluid" alt="Imagen 2">
+                <div class="carousel-caption">
+                    <div class="p-3 bg-dark bg-opacity-50 rounded">
+                        <h4 class="text-white text-uppercase fw-bold mb-3">Especies Forestales</h4>
+                        <h1 class="display-4 text-capitalize text-white mb-3">Identifica y Registra</h1>
+                        <p class="mb-4 fs-5 text-white">Accede al catálogo de especies forestales utilizadas en cada proyecto.</p>
+                        <a class="btn btn-primary py-2 px-4" href="{% url 'lista_especie' %}">Ver Especies</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'environs/img/imagen1.jpg' %}" alt="Descripción">
+                <div class="carousel-caption">
+                    <div class="p-3 bg-dark bg-opacity-50 rounded">
+                        <h4 class="text-white text-uppercase fw-bold mb-3">Comunidades Participantes</h4>
+                        <h1 class="display-4 text-capitalize text-white mb-3">Unidas por la Naturaleza</h1>
+                        <p class="mb-4 fs-5 text-white">Consulta qué comunidades están colaborando activamente en reforestación.</p>
+                        <a class="btn btn-primary py-2 px-4" href="{% url 'lista_comunidad' %}">Ver Comunidades</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</div>
+
+<!-- Sección Sobre Nosotros -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-4">¿Quiénes Somos?</h2>
+        <p class="lead text-muted">
+            Este sistema web facilita el registro de proyectos comunitarios de reforestación en todo el país.  
+            Promovemos la conservación ambiental mediante la documentación de especies forestales sembradas, fechas de ejecución y participación activa de comunidades locales.
+        </p>
+    </div>
+</section>
+
+<!-- Sección Últimos Proyectos -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Últimos Proyectos Registrados</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{% static 'environs/img/aliso.jpg' %}" class="card-img-top" alt="Proyecto">
+                    <div class="card-body">
+                        <h5 class="card-title">Reforestación en Otavalo</h5>
+                        <p class="card-text">Proyecto liderado por la comunidad “Yachay” con siembra de alisos y cedros.</p>
+                        <a href="{% url 'lista_proyecto' %}" class="btn btn-outline-success">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{% static 'environs/img/arbol.jpg' %}" class="card-img-top" alt="Especies">
+                    <div class="card-body">
+                        <h5 class="card-title">Bosques Andinos</h5>
+                        <p class="card-text">Especies nativas como pino de montaña y yagual sembradas por estudiantes rurales.</p>
+                        <a href="{% url 'lista_especie' %}" class="btn btn-outline-success">Ver Especies</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{% static 'environs/img/imagen3.jpg' %}" class="card-img-top" alt="Comunidad">
+                    <div class="card-body">
+                        <h5 class="card-title">Comunidad San Rafael</h5>
+                        <p class="card-text">Participación activa en reforestación de laderas con más de 1200 plantas sembradas.</p>
+                        <a href="{% url 'lista_comunidad' %}" class="btn btn-outline-success">Ver Comunidad</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

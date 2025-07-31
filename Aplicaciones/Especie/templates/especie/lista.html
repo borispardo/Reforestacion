@@ -10,7 +10,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-center">
+        <table class="table table-bordered table-hover align-middle text-center datatable">
             <thead class="table-dark">
                 <tr>
                     <th>Id</th>
@@ -52,10 +52,15 @@
                         </button>
                     </td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay especies registradas</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    
     <div class="mt-4">
         <a href="/" class="btn btn-secondary">
             <i class="fa fa-arrow-left"></i> Volver al menú
