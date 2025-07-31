@@ -1,18 +1,18 @@
 {% extends "plantilla.html" %}
 {% block contenido %}
 
-<div class="row justify-content-center">
-    <div class="col-md-8 bg-light p-4 rounded shadow-sm">
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light p-4 rounded">
         <h1 class="mb-4 text-center">Editar Proyecto Reforestación</h1>
 
         <form action="{% url 'procesar_edicion_proyecto' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ proyectoEditar.id }}">
-
-            <!-- Comunidad -->
+            
             <div class="mb-3">
                 <label for="comunidad" class="form-label">Comunidad</label>
-                <select name="comunidad" id="comunidad" class="form-select" required>
+                <select name="comunidad" id="comunidad" class="form-select">
                     <option value="">Seleccione...</option>
                     {% for comunidad in comunidades %}
                     <option value="{{ comunidad.id }}" {% if comunidad.id == proyectoEditar.comunidad.id %}selected{% endif %}>
@@ -22,10 +22,9 @@
                 </select>
             </div>
 
-            <!-- Especie -->
             <div class="mb-3">
                 <label for="especie" class="form-label">Especie</label>
-                <select name="especie" id="especie" class="form-select" required>
+                <select name="especie" id="especie" class="form-select">
                     <option value="">Seleccione...</option>
                     {% for especie in especies %}
                     <option value="{{ especie.id }}" {% if especie.id == proyectoEditar.especie.id %}selected{% endif %}>
@@ -35,53 +34,43 @@
                 </select>
             </div>
 
-            <!-- Nombre -->
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ proyectoEditar.nombre }}" required>
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ proyectoEditar.nombre }}">
             </div>
 
-            <!-- Descripción -->
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea name="descripcion" id="descripcion" class="form-control" rows="3" required>{{ proyectoEditar.descripcion }}</textarea>
+                <input type="text" name="descripcion" id="descripcion" class="form-control" value="{{ proyectoEditar.descripcion }}">
             </div>
 
-            <!-- Fechas -->
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
-                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{ proyectoEditar.fecha_inicio|date:'Y-m-d' }}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="fecha_fin" class="form-label">Fecha Fin</label>
-                    <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{ proyectoEditar.fecha_fin|date:'Y-m-d' }}" required>
-                </div>
+            <div class="mb-3">
+                <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
+                <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{ proyectoEditar.fecha_inicio|date:'Y-m-d' }}">
             </div>
 
-            <!-- Archivo actual -->
+            <div class="mb-3">
+                <label for="fecha_fin" class="form-label">Fecha Fin</label>
+                <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{ proyectoEditar.fecha_fin|date:'Y-m-d' }}">
+            </div>
+
+            <label for="archivo" class="form-label">Archivo actual</label>
             {% if proyectoEditar.archivo %}
-                <div class="mb-3">
-                    <label class="form-label">Archivo actual:</label><br>
-                    <a href="{{ proyectoEditar.archivo.url }}" target="_blank" class="btn btn-outline-secondary btn-sm">
-                        Ver archivo
-                    </a>
-                </div>
+                <p><a href="{{ proyectoEditar.archivo.url }}" target="_blank">Ver archivo actual</a></p>
             {% endif %}
 
-            <!-- Subir nuevo archivo -->
             <div class="mb-3">
-                <label for="archivo" class="form-label">Actualizar Archivo (opcional)</label>
-                <input id="archivo" name="archivo" type="file" class="form-control" accept="application/pdf">
+                <label for="archivo" class="form-label">Archivo</label>
+                <input id="archivo" name="archivo" type="file" class="file" data-browse-on-zone-click="true" accept="application/pdf">
             </div>
 
-            <!-- Botones -->
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                <a href="{% url 'lista_proyecto' %}" class="btn btn-outline-danger">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-outline-danger" href="{% url 'lista_proyecto' %}">Cancelar</a>
             </div>
         </form>
     </div>
+    <div class="col-md-3"></div>
 </div>
 
 {% endblock %}
