@@ -1,6 +1,6 @@
 from django.db import models
-from comunidad.models import Comunidad
-from especie.models import Especie
+from Aplicaciones.Comunidad.models import Comunidad
+from Aplicaciones.Especie.models import Especie
 
 class Proyecto(models.Model):
     comunidad = models.ForeignKey(Comunidad, on_delete=models.CASCADE)
