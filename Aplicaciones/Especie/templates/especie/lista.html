@@ -1,0 +1,31 @@
+<h1>Lista de Especie Forestal</h1>
+<p>
+    <a href="{% url 'nuevo_especie' %}">Crear Nueva Especie</a>
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre Común</th>
+            <th>Nombre Científico</th>
+            <th>Imagen</th>
+            <th>Creado</th>
+            <th>Actualizado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for especie in especies %}
+        <tr>
+            <td>{{ especie.nombre_comun }}</td>
+            <td>{{ especie.nombre_cientifico }}</td>
+            <td>{{ especie.imagen }}</td>
+            <td>{{ especie.creado }}</td>
+            <td>{{ especie.actualizado }}</td>
+            <td>
+                <a href="{% url 'editar_especie' especie.id %}">Editar</a> |
+                <a href="{% url 'eliminar_especie' especie.id %}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
