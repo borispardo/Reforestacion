@@ -1,3 +1,5 @@
+{% extends "plantilla.html" %}
+{% block contenido %}
 <h1>Crear Nuevo Proyecto</h1>
 <form action="{% url 'guardar_proyecto' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -28,3 +30,4 @@
     <input type="submit" value="Crear">
     <a href="{% url 'lista_proyecto' %}">Volver</a>
 </form>
+{% endblock %}

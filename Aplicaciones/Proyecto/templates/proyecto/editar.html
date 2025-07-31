@@ -1,3 +1,5 @@
+{% extends "plantilla.html" %}
+{% block contenido %}
 <h1>Editar Proyecto</h1>
 <form action="{% url 'procesar_edicion_proyecto' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -45,3 +47,4 @@
 
     <input type="submit" value="Editar">
 </form>
+{% endblock %}

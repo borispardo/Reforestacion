@@ -1,3 +1,5 @@
+{% extends "plantilla.html" %}
+{% block contenido %}
 <h1>Lista de Proyecto Reforestación</h1>
 <p>
     <a href="{% url 'nuevo_proyecto' %}">Crear Nuevo Proyecto</a>
@@ -37,3 +39,4 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
