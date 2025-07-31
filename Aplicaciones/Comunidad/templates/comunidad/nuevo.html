@@ -3,38 +3,78 @@
 
 <div class="row">
     <div class="col-md-3"></div>
-    <div class="col-md-6 bg-light p-4 rounded">
+    <div class="col-md-6 bg-light p-4 rounded shadow">
         <h1 class="mb-4 text-center">Nueva Comunidad Participante</h1>
 
-        <form action="{% url 'guardar_comunidad' %}" method="post" enctype="multipart/form-data">
+        <form id="form-comunidad" action="{% url 'guardar_comunidad' %}" method="post">
             {% csrf_token %}
+            
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" name="nombre" id="nombre" class="form-control" required>
             </div>
 
             <div class="mb-3">
+                <label class="form-label">Selecciona la ubicación en el mapa:</label>
+                <div id="map" style="height: 300px; border: 1px solid #ccc;"></div>
+            </div>
+
+            <div class="mb-3">
                 <label for="latitud" class="form-label">Latitud</label>
-                <input type="text" name="latitud" id="latitud" class="form-control" required>
+                <input type="text" name="latitud" id="latitud" class="form-control" required readonly>
             </div>
 
             <div class="mb-3">
                 <label for="longitud" class="form-label">Longitud</label>
-                <input type="text" name="longitud" id="longitud" class="form-control" required>
+                <input type="text" name="longitud" id="longitud" class="form-control" required readonly>
             </div>
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <input type="text" name="descripcion" id="descripcion" class="form-control" required>
+                <textarea name="descripcion" id="descripcion" class="form-control" required></textarea>
             </div>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a class="btn btn-outline-danger" href="{% url 'lista_comunidad' %}">Cancelar</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+                <a class="btn btn-outline-danger" href="{% url 'lista_comunidad' %}">
+                    <i class="fa fa-arrow-left"></i> Volver
+                </a>
             </div>
         </form>
     </div>
     <div class="col-md-3"></div>
 </div>
+
+<!-- Inicialización del mapa -->
+<script>
+  function initMap() {
+    const ubicacionInicial = { lat: -0.9374805, lng: -78.6161327 };
+
+    const mapa = new google.maps.Map(document.getElementById("map"), {
+      center: ubicacionInicial,
+      zoom: 7,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    const marcador = new google.maps.Marker({
+      position: ubicacionInicial,
+      map: mapa,
+      draggable: true,
+      title: "Arrastra para seleccionar la ubicación"
+    });
+
+    // Establecer valores iniciales
+    document.getElementById("latitud").value = ubicacionInicial.lat;
+    document.getElementById("longitud").value = ubicacionInicial.lng;
+
+    marcador.addListener("dragend", function () {
+      const nuevaPosicion = marcador.getPosition();
+      document.getElementById("latitud").value = nuevaPosicion.lat().toFixed(6);
+      document.getElementById("longitud").value = nuevaPosicion.lng().toFixed(6);
+    });
+  }
+</script>
 
 {% endblock %}

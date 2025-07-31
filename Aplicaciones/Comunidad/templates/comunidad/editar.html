@@ -3,40 +3,75 @@
 
 <div class="row">
     <div class="col-md-3"></div>
-    <div class="col-md-6 bg-light p-4 rounded">
+    <div class="col-md-6 bg-light p-4 rounded shadow">
         <h1 class="mb-4 text-center">Editar Comunidad Participante</h1>
 
-        <form action="{% url 'procesar_edicion_comunidad' %}" method="post" enctype="multipart/form-data">
+        <form id="form-editar" action="{% url 'procesar_edicion_comunidad' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ comunidadEditar.id }}">
             
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ comunidadEditar.nombre }}">
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ comunidadEditar.nombre }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Ubicación en el mapa:</label>
+                <div id="map" style="height: 300px; border: 1px solid #ccc;"></div>
             </div>
 
             <div class="mb-3">
                 <label for="latitud" class="form-label">Latitud</label>
-                <input type="text" name="latitud" id="latitud" class="form-control" value="{{ comunidadEditar.latitud }}">
+                <input type="text" name="latitud" id="latitud" class="form-control" value="{{ comunidadEditar.latitud }}" required>
             </div>
 
             <div class="mb-3">
                 <label for="longitud" class="form-label">Longitud</label>
-                <input type="text" name="longitud" id="longitud" class="form-control" value="{{ comunidadEditar.longitud }}">
+                <input type="text" name="longitud" id="longitud" class="form-control" value="{{ comunidadEditar.longitud }}" required>
             </div>
 
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <input type="text" name="descripcion" id="descripcion" class="form-control" value="{{ comunidadEditar.descripcion }}">
+                <textarea name="descripcion" id="descripcion" class="form-control" required>{{ comunidadEditar.descripcion }}</textarea>
             </div>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a class="btn btn-outline-danger" href="{% url 'lista_comunidad' %}">Cancelar</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+                <a class="btn btn-outline-danger" href="{% url 'lista_comunidad' %}">
+                    <i class="fa fa-arrow-left"></i> Volver
+                </a>
             </div>
         </form>
     </div>
     <div class="col-md-3"></div>
 </div>
+
+<!-- Script para inicializar el mapa -->
+<script>
+  function initMap() {
+    const lat = parseFloat('{{ comunidadEditar.latitud }}');
+    const lng = parseFloat('{{ comunidadEditar.longitud }}');
+    const posicion = { lat: lat, lng: lng };
+
+    const mapa = new google.maps.Map(document.getElementById('map'), {
+      center: posicion,
+      zoom: 6
+    });
+
+    const marcador = new google.maps.Marker({
+      position: posicion,
+      map: mapa,
+      draggable: true,
+      title: "Arrastre para mover"
+    });
+
+    marcador.addListener('dragend', function (event) {
+      document.getElementById("latitud").value = event.latLng.lat().toFixed(6);
+      document.getElementById("longitud").value = event.latLng.lng().toFixed(6);
+    });
+  }
+</script>
 
 {% endblock %}
