@@ -10,5 +10,5 @@ class Comunidad(models.Model):
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre

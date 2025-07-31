@@ -1,50 +1,87 @@
 {% extends "plantilla.html" %}
 {% block contenido %}
-<h1>Editar Proyecto</h1>
-<form action="{% url 'procesar_edicion_proyecto' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
 
-    <label for="id">Id:</label>
-    <input type="text" name="id" id="id" value="{{ proyectoEditar.id }}" readonly>
+<div class="row justify-content-center">
+    <div class="col-md-8 bg-light p-4 rounded shadow-sm">
+        <h1 class="mb-4 text-center">Editar Proyecto Reforestación</h1>
 
-    <label for="comunidad">Comunidad:</label>
-    <select name="comunidad" id="comunidad">
-        <option value="">Seleccione...</option>
-        {% for comunidad in comunidades %}
-            <option value="{{ comunidad.id }}" {% if comunidad.id == proyectoEditar.comunidad.id %}selected{% endif %}>
-                {{ comunidad.nombre }}
-            </option>
-        {% endfor %}
-    </select>
+        <form action="{% url 'procesar_edicion_proyecto' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ proyectoEditar.id }}">
 
-    <label for="especie">Especie:</label>
-    <select name="especie" id="especie">
-        <option value="">Seleccione...</option>
-        {% for especie in especies %}
-            <option value="{{ especie.id }}" {% if especie.id == proyectoEditar.especie.id %}selected{% endif %}>
-                {{ especie.nombre_comun }}
-            </option>
-        {% endfor %}
-    </select>
+            <!-- Comunidad -->
+            <div class="mb-3">
+                <label for="comunidad" class="form-label">Comunidad</label>
+                <select name="comunidad" id="comunidad" class="form-select" required>
+                    <option value="">Seleccione...</option>
+                    {% for comunidad in comunidades %}
+                    <option value="{{ comunidad.id }}" {% if comunidad.id == proyectoEditar.comunidad.id %}selected{% endif %}>
+                        {{ comunidad.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" id="nombre" value="{{ proyectoEditar.nombre }}">
+            <!-- Especie -->
+            <div class="mb-3">
+                <label for="especie" class="form-label">Especie</label>
+                <select name="especie" id="especie" class="form-select" required>
+                    <option value="">Seleccione...</option>
+                    {% for especie in especies %}
+                    <option value="{{ especie.id }}" {% if especie.id == proyectoEditar.especie.id %}selected{% endif %}>
+                        {{ especie.nombre_comun }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    <label for="descripcion">Descripción:</label>
-    <input type="text" name="descripcion" id="descripcion" value="{{ proyectoEditar.descripcion }}">
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ proyectoEditar.nombre }}" required>
+            </div>
 
-    <label for="fecha_inicio">Fecha Inicio:</label>
-    <input type="date" name="fecha_inicio" id="fecha_inicio" value="{{ proyectoEditar.fecha_inicio|date:'Y-m-d' }}">
+            <!-- Descripción -->
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea name="descripcion" id="descripcion" class="form-control" rows="3" required>{{ proyectoEditar.descripcion }}</textarea>
+            </div>
 
-    <label for="fecha_fin">Fecha Fin:</label>
-    <input type="date" name="fecha_fin" id="fecha_fin" value="{{ proyectoEditar.fecha_fin|date:'Y-m-d' }}">
+            <!-- Fechas -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
+                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{ proyectoEditar.fecha_inicio|date:'Y-m-d' }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="fecha_fin" class="form-label">Fecha Fin</label>
+                    <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{ proyectoEditar.fecha_fin|date:'Y-m-d' }}" required>
+                </div>
+            </div>
 
-    <label for="archivo">Archivo actual:</label>
-    {% if proyectoEditar.archivo %}
-        <p><a href="{{ proyectoEditar.archivo.url }}" target="_blank">Ver archivo actual</a></p>
-    {% endif %}
-    <input type="file" name="archivo" id="archivo">
+            <!-- Archivo actual -->
+            {% if proyectoEditar.archivo %}
+                <div class="mb-3">
+                    <label class="form-label">Archivo actual:</label><br>
+                    <a href="{{ proyectoEditar.archivo.url }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+                        Ver archivo
+                    </a>
+                </div>
+            {% endif %}
 
-    <input type="submit" value="Editar">
-</form>
+            <!-- Subir nuevo archivo -->
+            <div class="mb-3">
+                <label for="archivo" class="form-label">Actualizar Archivo (opcional)</label>
+                <input id="archivo" name="archivo" type="file" class="form-control" accept="application/pdf">
+            </div>
+
+            <!-- Botones -->
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{% url 'lista_proyecto' %}" class="btn btn-outline-danger">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 {% endblock %}

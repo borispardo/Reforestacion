@@ -1,42 +1,86 @@
 {% extends "plantilla.html" %}
 {% block contenido %}
-<h1>Lista de Proyecto Reforestación</h1>
-<p>
-    <a href="{% url 'nuevo_proyecto' %}">Crear Nuevo Proyecto</a>
-</p>
-<table>
-    <thead>
-        <tr>
-            <th>Comunidad</th>
-            <th>Especie</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th>Archivo</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for proyecto in proyectos %}
-        <tr>
-            <td>{{ proyecto.comunidad }}</td>
-            <td>{{ proyecto.especie }}</td>
-            <td>{{ proyecto.nombre }}</td>
-            <td>{{ proyecto.descripcion }}</td>
-            <td>{{ proyecto.fecha_inicio }}</td>
-            <td>{{ proyecto.fecha_fin }}</td>
-            <td>{{ proyecto.archivo }}</td>
-            <td>{{ proyecto.creado }}</td>
-            <td>{{ proyecto.actualizado }}</td>
-            <td>
-                <a href="{% url 'editar_proyecto' proyecto.id %}">Editar</a> |
-                <a href="{% url 'eliminar_proyecto' proyecto.id %}">Eliminar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+
+<div class="container mt-5">
+    <h1 class="text-center">Lista de Proyecto Reforestación</h1>
+    <div class="text-end mb-3">
+        <a href="{% url 'nuevo_proyecto' %}" class="btn btn-outline-success">
+            <i class="fa fa-plus"></i> Agregar Proyecto Reforestación
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Comunidad</th>
+                    <th>Especie</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Archivo</th>
+                    <th>Creado</th>
+                    <th>Actualizado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proyecto in proyectos %}
+                <tr>
+                    <td>{{ proyecto.id }}</td>
+                    <td>{{ proyecto.comunidad }}</td>
+                    <td>{{ proyecto.especie }}</td>
+                    <td>{{ proyecto.nombre }}</td>
+                    <td>{{ proyecto.descripcion }}</td>
+                    <td>{{ proyecto.fecha_inicio }}</td>
+                    <td>{{ proyecto.fecha_fin }}</td>
+                    <td>
+                        {%if proyecto.archivo %}
+                            <a href="{{ proyecto.archivo.url }}" target="_blank">Ver archivo actual</a>
+                        {% else %}
+                            <span class="text-muted">Sin archivo</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ proyecto.creado|date:"Y-m-d H:i" }}</td>
+                    <td>{{ proyecto.actualizado|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="editar/{{ proyecto.id }}/" class="btn btn-outline-warning btn-sm" title="Editar">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <button onclick="confirmDelete('{{ proyecto.id }}')" class="btn btn-outline-danger btn-sm" title="Eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4">
+        <a href="/" class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> Volver al menú
+        </a>
+    </div>
+ </div>
+
+ <script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "El registro será eliminado permanentemente.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "eliminar/" + id + "/";
+            }
+        });
+    }
+</script>   
+ {% endblock %}
