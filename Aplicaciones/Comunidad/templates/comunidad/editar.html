@@ -1,15 +1,42 @@
-<h1>Editar Comunidad</h1>
-<form action="{% url 'procesar_edicion_comunidad' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label for="id">Id:</label>
-    <input type="text" name="id" id="id" value="{{ comunidadEditar.id }}" readonly>
-    <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" id="nombre" value="{{ comunidadEditar.nombre }}">
-    <label for="latitud">Latitud:</label>
-    <input type="text" name="latitud" id="latitud" value="{{ comunidadEditar.latitud }}">
-    <label for="longitud">Longitud:</label>
-    <input type="text" name="longitud" id="longitud" value="{{ comunidadEditar.longitud }}">
-    <label for="descripcion">Descripcion:</label>
-    <input type="text" name="descripcion" id="descripcion" value="{{ comunidadEditar.descripcion }}">
-    <input type="submit" value="Editar">
-</form>
+{% extends "plantilla.html" %}
+{% block contenido %}
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light p-4 rounded">
+        <h1 class="mb-4 text-center">Editar Comunidad Participante</h1>
+
+        <form action="{% url 'procesar_edicion_comunidad' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ comunidadEditar.id }}">
+            
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ comunidadEditar.nombre }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="latitud" class="form-label">Latitud</label>
+                <input type="text" name="latitud" id="latitud" class="form-control" value="{{ comunidadEditar.latitud }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="longitud" class="form-label">Longitud</label>
+                <input type="text" name="longitud" id="longitud" class="form-control" value="{{ comunidadEditar.longitud }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="text" name="descripcion" id="descripcion" class="form-control" value="{{ comunidadEditar.descripcion }}">
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-outline-danger" href="{% url 'lista_comunidad' %}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+{% endblock %}

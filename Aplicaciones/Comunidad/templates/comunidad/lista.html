@@ -1,33 +1,74 @@
-<h1>Lista de Comunidad Participante</h1>
-<p>
-    <a href="{% url 'nuevo_comunidad' %}">Crear Nueva Comunidad</a>
-</p>
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Latitud</th>
-            <th>Longitud</th>
-            <th>Descripcion</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for comunidad in comunidades %}
-        <tr>
-            <td>{{ comunidad.nombre }}</td>
-            <td>{{ comunidad.latitud }}</td>
-            <td>{{ comunidad.longitud }}</td>
-            <td>{{ comunidad.descripcion }}</td>
-            <td>{{ comunidad.creado }}</td>
-            <td>{{ comunidad.actualizado }}</td>
-            <td>
-                <a href="{% url 'editar_comunidad' comunidad.id %}">Editar</a> |
-                <a href="{% url 'eliminar_comunidad' comunidad.id %}">Eliminar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% extends "plantilla.html" %}
+{% block contenido %}
+
+<div class="container mt-5">
+    <h1 class="text-center">Lista de Comunidad Participante</h1>
+    <div class="text-end mb-3">
+        <a href="{% url 'nuevo_comunidad' %}" class="btn btn-outline-success">
+            <i class="fa fa-plus"></i> Agregar Comunidad Participante
+        </a>
+    </div>
+
+    <div class="table-responsive"></div>
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Descripcion</th>
+                    <th>Creado</th>
+                    <th>Actualizado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comunidad in comunidades %}
+                <tr>
+                    <td>{{ comunidad.id }}</td>
+                    <td>{{ comunidad.nombre }}</td>
+                    <td>{{ comunidad.latitud }}</td>
+                    <td>{{ comunidad.longitud }}</td>
+                    <td>{{ comunidad.descripcion }}</td>
+                    <td>{{ comunidad.creado }}</td>
+                    <td>{{ comunidad.actualizado }}</td>
+                    <td>
+                        <a href="editar/{{ comunidad.id }}/" class="btn btn-outline-warning btn-sm" title="Editar">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <button onclick="confirmDelete('{{ comunidad.id }}')" class="btn btn-outline-danger btn-sm" title="Eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4">
+        <a href="/" class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> Volver al menú
+        </a>
+    </div>
+ </div>
+
+ <script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "El registro será eliminado permanentemente.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "eliminar/" + id + "/";
+            }
+        });
+    }
+</script>   
+ {% endblock %}
