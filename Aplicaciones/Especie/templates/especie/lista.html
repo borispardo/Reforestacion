@@ -2,7 +2,8 @@
 {% block contenido %}
 
 <div class="container mt-5">
-    <h1 class="text-center">Lista de Especie Forestal</h1>
+    <h1 class="text-center">Lista de Especies Forestales</h1>
+    
     <div class="text-end mb-3">
         <a href="{% url 'nuevo_especie' %}" class="btn btn-outline-success">
             <i class="fa fa-plus"></i> Agregar Especie Forestal
@@ -13,7 +14,7 @@
         <table class="table table-bordered table-hover align-middle text-center datatable">
             <thead class="table-dark">
                 <tr>
-                    <th>Id</th>
+                    <th>ID</th>
                     <th>Nombre Común</th>
                     <th>Nombre Científico</th>
                     <th>Imagen</th>
@@ -30,15 +31,12 @@
                     <td>{{ especie.nombre_cientifico }}</td>
                     <td style="position: relative;">
                         {% if especie.imagen %}
-                        <img src="{{ especie.imagen.url }}" 
-                             class="img-thumbnail preview-small" 
-                             style="width: 60px; cursor: pointer;" 
-                             data-large="{{ especie.imagen.url }}">
-                        <div class="preview-large shadow border rounded bg-white p-2" style="display:none; position:absolute; top: 70px; left: 0; z-index: 999;">
-                            <img src="{{ especie.imagen.url }}" style="max-width: 200px; max-height: 150px;">
-                        </div>
+                            <img src="{{ especie.imagen.url }}"
+                                 class="img-thumbnail"
+                                 style="width: 60px; height: 60px; object-fit: cover;"
+                                 alt="Imagen de {{ especie.nombre_comun }}">
                         {% else %}
-                        <span class="text-muted">Sin imagen</span>
+                            <span class="text-muted">Sin imagen</span>
                         {% endif %}
                     </td>
                     <td>{{ especie.creado|date:"Y-m-d H:i" }}</td>
@@ -54,21 +52,22 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" class="text-center">No hay especies registradas</td>
+                    <td colspan="7" class="text-center text-muted">No hay especies registradas</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
+
     <div class="mt-4">
         <a href="/" class="btn btn-secondary">
             <i class="fa fa-arrow-left"></i> Volver al menú
         </a>
     </div>
- </div>
+</div>
 
- <script>
+<!-- SweetAlert confirmación -->
+<script>
     function confirmDelete(id) {
         Swal.fire({
             title: "¿Estás seguro?",
@@ -85,6 +84,6 @@
             }
         });
     }
-</script>   
- {% endblock %} 
+</script>
 
+{% endblock %}
