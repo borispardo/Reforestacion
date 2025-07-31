@@ -9,7 +9,7 @@ class Proyecto(models.Model):
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
-    archivo = models.FileField(upload_to='proyectos/', blank=True)
+    archivo = models.FileField(upload_to='media/proyectos/', blank=True)
 
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
