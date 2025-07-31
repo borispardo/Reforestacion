@@ -1,31 +1,85 @@
-<h1>Lista de Especie Forestal</h1>
-<p>
-    <a href="{% url 'nuevo_especie' %}">Crear Nueva Especie</a>
-</p>
-<table>
-    <thead>
-        <tr>
-            <th>Nombre Común</th>
-            <th>Nombre Científico</th>
-            <th>Imagen</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for especie in especies %}
-        <tr>
-            <td>{{ especie.nombre_comun }}</td>
-            <td>{{ especie.nombre_cientifico }}</td>
-            <td>{{ especie.imagen }}</td>
-            <td>{{ especie.creado }}</td>
-            <td>{{ especie.actualizado }}</td>
-            <td>
-                <a href="{% url 'editar_especie' especie.id %}">Editar</a> |
-                <a href="{% url 'eliminar_especie' especie.id %}">Eliminar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% extends "plantilla.html" %}
+{% block contenido %}
+
+<div class="container mt-5">
+    <h1 class="text-center">Lista de Especie Forestal</h1>
+    <div class="text-end mb-3">
+        <a href="{% url 'nuevo_especie' %}" class="btn btn-outline-success">
+            <i class="fa fa-plus"></i> Agregar Especie Forestal
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre Común</th>
+                    <th>Nombre Científico</th>
+                    <th>Imagen</th>
+                    <th>Creado</th>
+                    <th>Actualizado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for especie in especies %}
+                <tr>
+                    <td>{{ especie.id }}</td>
+                    <td>{{ especie.nombre_comun }}</td>
+                    <td>{{ especie.nombre_cientifico }}</td>
+                    <td style="position: relative;">
+                        {% if especie.imagen %}
+                        <img src="{{ especie.imagen.url }}" 
+                             class="img-thumbnail preview-small" 
+                             style="width: 60px; cursor: pointer;" 
+                             data-large="{{ especie.imagen.url }}">
+                        <div class="preview-large shadow border rounded bg-white p-2" style="display:none; position:absolute; top: 70px; left: 0; z-index: 999;">
+                            <img src="{{ especie.imagen.url }}" style="max-width: 200px; max-height: 150px;">
+                        </div>
+                        {% else %}
+                        <span class="text-muted">Sin imagen</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ especie.creado|date:"Y-m-d H:i" }}</td>
+                    <td>{{ especie.actualizado|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="editar/{{ especie.id }}/" class="btn btn-outline-warning btn-sm" title="Editar">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <button onclick="confirmDelete('{{ especie.id }}')" class="btn btn-outline-danger btn-sm" title="Eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4">
+        <a href="/" class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> Volver al menú
+        </a>
+    </div>
+ </div>
+
+ <script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "El registro será eliminado permanentemente.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "eliminar/" + id + "/";
+            }
+        });
+    }
+</script>   
+ {% endblock %} 
+
