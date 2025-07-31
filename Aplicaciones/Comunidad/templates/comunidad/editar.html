@@ -1,0 +1,15 @@
+<h1>Editar Comunidad</h1>
+<form action="{% url 'procesar_edicion_comunidad' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="id">Id:</label>
+    <input type="text" name="id" id="id" value="{{ comunidadEditar.id }}" readonly>
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre" value="{{ comunidadEditar.nombre }}">
+    <label for="latitud">Latitud:</label>
+    <input type="text" name="latitud" id="latitud" value="{{ comunidadEditar.latitud }}">
+    <label for="longitud">Longitud:</label>
+    <input type="text" name="longitud" id="longitud" value="{{ comunidadEditar.longitud }}">
+    <label for="descripcion">Descripcion:</label>
+    <input type="text" name="descripcion" id="descripcion" value="{{ comunidadEditar.descripcion }}">
+    <input type="submit" value="Editar">
+</form>

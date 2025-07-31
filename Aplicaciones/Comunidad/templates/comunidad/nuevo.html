@@ -1,0 +1,14 @@
+<h1>Crear Nueva Comunidad</h1>
+<form action="{% url 'guardar_comunidad' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre" required>
+    <label for="latitud">Latitud:</label>
+    <input type="text" name="latitud" id="latitud" required>
+    <label for="longitud">Longitud:</label>
+    <input type="text" name="longitud" id="longitud" required>
+    <label for="descripcion">Descripcion:</label>
+    <input type="text" name="descripcion" id="descripcion">
+    <input type="submit" value="Crear">
+    <a href="{% url 'lista_comunidad' %}">Volver</a>
+</form>

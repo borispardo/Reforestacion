@@ -1,0 +1,33 @@
+<h1>Lista de Comunidad Participante</h1>
+<p>
+    <a href="{% url 'nuevo_comunidad' %}">Crear Nueva Comunidad</a>
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
+            <th>Descripcion</th>
+            <th>Creado</th>
+            <th>Actualizado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comunidad in comunidades %}
+        <tr>
+            <td>{{ comunidad.nombre }}</td>
+            <td>{{ comunidad.latitud }}</td>
+            <td>{{ comunidad.longitud }}</td>
+            <td>{{ comunidad.descripcion }}</td>
+            <td>{{ comunidad.creado }}</td>
+            <td>{{ comunidad.actualizado }}</td>
+            <td>
+                <a href="{% url 'editar_comunidad' comunidad.id %}">Editar</a> |
+                <a href="{% url 'eliminar_comunidad' comunidad.id %}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
