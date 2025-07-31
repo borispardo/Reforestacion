@@ -1,76 +1,109 @@
 {% extends "plantilla.html" %}
-{% block contenido %}
 
+{% block contenido %}
 <div class="row">
     <div class="col-md-3"></div>
+
     <div class="col-md-6 bg-light p-4 rounded">
-        <h1 class="mb-4 text-center">Editar Proyecto Reforestación</h1>
+        <h1 class="mb-4 text-center">Editar Proyecto de Reforestación</h1>
 
         <form action="{% url 'procesar_edicion_proyecto' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ proyectoEditar.id }}">
-            
+
+           
             <div class="mb-3">
                 <label for="comunidad" class="form-label">Comunidad</label>
-                <select name="comunidad" id="comunidad" class="form-select">
+                <select name="comunidad" id="comunidad" class="form-select" required>
                     <option value="">Seleccione...</option>
                     {% for comunidad in comunidades %}
-                    <option value="{{ comunidad.id }}" {% if comunidad.id == proyectoEditar.comunidad.id %}selected{% endif %}>
-                        {{ comunidad.nombre }}
-                    </option>
+                        <option value="{{ comunidad.id }}" {% if comunidad.id == proyectoEditar.comunidad.id %}selected{% endif %}>
+                            {{ comunidad.nombre }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
 
+            
             <div class="mb-3">
                 <label for="especie" class="form-label">Especie</label>
-                <select name="especie" id="especie" class="form-select">
+                <select name="especie" id="especie" class="form-select" required>
                     <option value="">Seleccione...</option>
                     {% for especie in especies %}
-                    <option value="{{ especie.id }}" {% if especie.id == proyectoEditar.especie.id %}selected{% endif %}>
-                        {{ especie.nombre_comun }}
-                    </option>
+                        <option value="{{ especie.id }}" {% if especie.id == proyectoEditar.especie.id %}selected{% endif %}>
+                            {{ especie.nombre_comun }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
 
+            
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ proyectoEditar.nombre }}">
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ proyectoEditar.nombre }}" required>
             </div>
 
+            
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <input type="text" name="descripcion" id="descripcion" class="form-control" value="{{ proyectoEditar.descripcion }}">
+                <textarea name="descripcion" id="descripcion" class="form-control" required>{{ proyectoEditar.descripcion }}</textarea>
+                
             </div>
 
+            
             <div class="mb-3">
                 <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
-                <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{ proyectoEditar.fecha_inicio|date:'Y-m-d' }}">
+                <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{ proyectoEditar.fecha_inicio|date:'Y-m-d' }}" required>
             </div>
 
             <div class="mb-3">
                 <label for="fecha_fin" class="form-label">Fecha Fin</label>
-                <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{ proyectoEditar.fecha_fin|date:'Y-m-d' }}">
+                <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{ proyectoEditar.fecha_fin|date:'Y-m-d' }}" required>
             </div>
 
-            <label for="archivo" class="form-label">Archivo actual</label>
+        
             {% if proyectoEditar.archivo %}
-                <p><a href="{{ proyectoEditar.archivo.url }}" target="_blank">Ver archivo actual</a></p>
+                <div class="mb-3">
+                    <label class="form-label">Archivo actual</label>
+                    <p><a href="{{ proyectoEditar.archivo.url }}" target="_blank">Ver archivo actual</a></p>
+                </div>
             {% endif %}
 
+            
             <div class="mb-3">
-                <label for="archivo" class="form-label">Archivo</label>
-                <input id="archivo" name="archivo" type="file" class="file" data-browse-on-zone-click="true" accept="application/pdf">
+                <label for="archivo" class="form-label">Nuevo Archivo (PDF)</label>
+                <input id="archivo" name="archivo" type="file" class="form-control" accept="application/pdf">
+                <iframe id="preview" class="d-none mt-3" width="100%" height="400px"></iframe>
             </div>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a class="btn btn-outline-danger" href="{% url 'lista_proyecto' %}">Cancelar</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+                <a class="btn btn-outline-danger" href="{% url 'lista_proyecto' %}">
+                    <i class="fa fa-arrow-left"></i> Volver
+                </a>
             </div>
         </form>
     </div>
+
     <div class="col-md-3"></div>
 </div>
 
+<!-- Script para vista previa del PDF -->
+<script>
+  const input = document.querySelector('input[name="archivo"]');
+  const preview = document.getElementById('preview');
+
+  input.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file && file.type === "application/pdf") {
+      preview.src = URL.createObjectURL(file);
+      preview.classList.remove("d-none");
+    } else {
+      preview.src = "";
+      preview.classList.add("d-none");
+    }
+  });
+</script>
 {% endblock %}
