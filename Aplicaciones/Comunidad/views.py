@@ -1,6 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Comunidad
+from django.core.mail import EmailMessage
+from django.conf import settings
+import mimetypes
 
 #Mostrar lista de comunidades
 def listaComunidad(request):
@@ -57,3 +60,35 @@ def procesarEdicionComunidad(request):
 
     messages.success(request, "Comunidad EDITADA exitosamente")
     return redirect('/comunidad/')
+
+#Enviar mensaje a comunidad
+def enviarMensajeComunidad(request, id):
+    comunidad = get_object_or_404(Comunidad, id=id)
+
+    if request.method == 'POST':
+        destinatario = request.POST.get('destinatario')
+        asunto = request.POST.get('asunto', '')
+        mensaje = request.POST.get('mensaje', '')
+        archivo = request.FILES.get('archivo', None)
+
+        email = EmailMessage(
+            subject=asunto,
+            body=mensaje,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[destinatario]
+        )
+
+        if archivo:
+            tipo_mime, _ = mimetypes.guess_type(archivo.name)
+            email.attach(archivo.name, archivo.read(), tipo_mime or 'application/octet-stream')
+
+        try:
+            email.send()
+            messages.success(request, "Mensaje enviado exitosamente")
+        except Exception as e:
+            messages.error(request, f"Error al enviar el mensaje: {str(e)}")
+
+        return redirect('/comunidad/')
+
+    return render(request, 'comunidad/enviar.html', {
+        'comunidad': comunidad})

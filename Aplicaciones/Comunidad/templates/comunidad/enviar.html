@@ -1,0 +1,59 @@
+{% extends "plantilla.html" %}
+{% block contenido %}
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light p-4 rounded shadow">
+        <h1 class="mb-4 text-center">Nuevo Mensaje</h1>
+
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="destinatario" class="form-label">Correo destinatario</label>
+                    <input type="email" name="destinatario" id="destinatario" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="asunto" class="form-label">Asunto</label>
+                    <input type="text" name="asunto" id="asunto" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="mensaje" class="form-label">Mensaje</label>
+                    <textarea name="mensaje" id="mensaje" rows="5" class="form-control" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="archivo" class="form-label">Adjuntar archivo (opcional)</label>
+                    <input type="file" name="archivo" id="archivo" class="file" data-browse-on-zone-click="true" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'lista_comunidad' %}" class="btn btn-outline-secondary">
+                        <i class="fa fa-arrow-left"></i> Volver
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-send"></i> Enviar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#archivo").fileinput({
+            theme: "fa",
+            language: "es",
+            allowedFileExtensions: ["pdf", "doc", "docx", "jpg", "jpeg", "png"],
+            maxFileSize: 2048,
+            showUpload: false,
+            dropZoneEnabled: true,
+            browseLabel: "Seleccionar archivo",
+            removeLabel: "Eliminar",
+        });
+    });
+</script>
+{% endblock %}

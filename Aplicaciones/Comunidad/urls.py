@@ -8,4 +8,5 @@ urlpatterns = [
     path('editar/<int:id>/', views.editarComunidad, name='editar_comunidad'),
     path('procesar/', views.procesarEdicionComunidad, name='procesar_edicion_comunidad'),
     path('eliminar/<int:id>/', views.eliminarComunidad, name='eliminar_comunidad'),
+    path('enviar/<int:id>/', views.enviarMensajeComunidad, name='enviar_mensaje'),
 ]

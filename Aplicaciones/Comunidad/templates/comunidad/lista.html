@@ -41,6 +41,10 @@
                         <button onclick="confirmDelete('{{ comunidad.id }}')" class="btn btn-outline-danger btn-sm" title="Eliminar">
                             <i class="fa fa-trash"></i>
                         </button>
+                        <a href="enviar/{{ comunidad.id }}/" class="btn btn-outline-success btn-sm" title="Enviar Mensaje">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+
                     </td>
                 </tr>
                 {% empty %}
