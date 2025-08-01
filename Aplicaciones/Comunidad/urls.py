@@ -9,4 +9,5 @@ urlpatterns = [
     path('procesar/', views.procesarEdicionComunidad, name='procesar_edicion_comunidad'),
     path('eliminar/<int:id>/', views.eliminarComunidad, name='eliminar_comunidad'),
     path('enviar/<int:id>/', views.enviarMensajeComunidad, name='enviar_mensaje'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]

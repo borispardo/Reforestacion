@@ -3,7 +3,43 @@ from django.contrib import messages
 from .models import Comunidad
 from django.core.mail import EmailMessage
 from django.conf import settings
+from collections import Counter
+from datetime import datetime
+from django.utils.timezone import localtime
+from Aplicaciones.Especie.models import Especie
+from Aplicaciones.Proyecto.models import Proyecto
 import mimetypes
+
+def dashboard(request):
+    # Comunidades
+    comunidades = Comunidad.objects.all()
+    fechas_comunidades = [localtime(c.creado).date() for c in comunidades]
+    conteo_comunidades = Counter(fechas_comunidades)
+    comunidad_labels = sorted([fecha.strftime('%Y-%m-%d') for fecha in conteo_comunidades.keys()])
+    comunidad_valores = [conteo_comunidades[datetime.strptime(fecha, '%Y-%m-%d').date()] for fecha in comunidad_labels]
+
+    # Especies
+    especies = Especie.objects.all()
+    fechas_especies = [localtime(e.creado).date() for e in especies]
+    conteo_especies = Counter(fechas_especies)
+    especie_labels = sorted([fecha.strftime('%Y-%m-%d') for fecha in conteo_especies.keys()])
+    especie_valores = [conteo_especies[datetime.strptime(fecha, '%Y-%m-%d').date()] for fecha in especie_labels]
+
+    # Proyectos
+    proyectos = Proyecto.objects.all()
+    fechas_proyectos = [localtime(p.creado).date() for p in proyectos]
+    conteo_proyectos = Counter(fechas_proyectos)
+    proyecto_labels = sorted([fecha.strftime('%Y-%m-%d') for fecha in conteo_proyectos.keys()])
+    proyecto_valores = [conteo_proyectos[datetime.strptime(fecha, '%Y-%m-%d').date()] for fecha in proyecto_labels]
+
+    return render(request, 'dashboard.html', {
+        'comunidad_labels': comunidad_labels,
+        'comunidad_valores': comunidad_valores,
+        'especie_labels': especie_labels,
+        'especie_valores': especie_valores,
+        'proyecto_labels': proyecto_labels,
+        'proyecto_valores': proyecto_valores
+    })
 
 #Mostrar lista de comunidades
 def listaComunidad(request):
